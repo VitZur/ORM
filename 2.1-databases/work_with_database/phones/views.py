@@ -5,14 +5,15 @@ def show_product(request):
    
     sort_by = request.GET.get('sort', 'name')  
 
-    sort_options = {
-        'price_asc': 'price',
-        'price_desc':'-price',
-        'name':'name',
-    }
-
-    phones = Phone.objects.all().order_by(sort_options.get(sort_by, 'name'))
-
+    if sort_by == 'name':
+        phones = Phone.objects.all().order_by('name')
+    elif sort_by == 'price':
+        phones = Phone.objects.all().order_by('price')
+    elif sort_by == 'price_desc':
+        phones = Phone. objects.all().order_by('-price')
+    else:
+        phones = Phone.objects.all()
+        
     return render(request, 'catalog.html', {'phones':phones})
 
 def index(request):
